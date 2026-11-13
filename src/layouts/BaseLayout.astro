@@ -7,7 +7,7 @@ const position = "Web Developer";
 ---
 
 
-<html lang="en">
+<html lang="en" class="dark scroll-smooth">
     <head>
         <meta charset="utf-8" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -17,8 +17,15 @@ const position = "Web Developer";
         <title>{name} | {position}</title>
     </head>
     <body>
-        <Header />
-        <slot />
+        <div id="progressBar" aria-hidden="true" class="fixed top-0 left-0 z-50 h-1 w-full origin-left bg-orange-500"></div>
+        <div class="rounded-[2rem] border border-purple-200 bg-purple-50/60 dark:border-white/20 dark:bg-white/5 backdrop-blur-lg shadow-xl p-6 sm:p-10">
+            <Header />
+            <slot />
+        </div>
         <Footer />
+
+        <script>
+            import "../scripts/animation.js";
+        </script>
     </body>
 </html>
