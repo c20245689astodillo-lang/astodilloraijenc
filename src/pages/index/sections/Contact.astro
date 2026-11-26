@@ -1,21 +1,42 @@
-  <section id="contact" class="darkmode scroll-mt-24 mt-6">
-                <h2 class="text-3xl font-extrabold mb-6">Let's build together!</h2>
-                <form action="#" class="flex flex-col gap-2 max-w-xl">
+---
+const appsScriptUrl = import.meta.env.PUBLIC_GOOGLE_APPS_SCRIPT_URL ?? "";
+---
 
-                    <label for="name" class="font-semibold">Name</label>
-                    <input type="text" id="name" name="name" required
-                        class="mb-3 rounded-full bg-white text-purple-950 border border-purple-950 px-5 py-2 focus:outline-none focus:ring-2 focus:ring-purple-950">
+<section id="contact" data-scroll-reveal class="darkmode mt-6 scroll-mt-24">
+  <p data-reveal-item class="mb-2 text-sm font-bold uppercase tracking-[0.16em] text-purple-700">Get in touch</p>
+  <h2 data-reveal-item class="mb-6 text-3xl font-extrabold">Let's build together!</h2>
+  <p data-reveal-item class="mb-6 max-w-prose leading-7">
+    Have a question or project in mind? Send me a message below.
+  </p>
 
-                    <label for="email" class="font-semibold">Email</label>
-                    <input type="email" name="email" id="email" required
-                        class="mb-3 rounded-full bg-white text-purple-950 border border-purple-950 px-5 py-2 focus:outline-none focus:ring-2 focus:ring-purple-950">
+  <form
+    id="contactForm"
+    data-endpoint={appsScriptUrl}
+    method="post"
+    target="contactResponse"
+    class="grid max-w-3xl gap-x-5 gap-y-2 sm:grid-cols-2"
+  >
+    <input class="sr-only" type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true" />
 
-                    <label for="message" class="font-semibold">Message</label>
-                    <textarea name="message" id="message" rows="5" required
-                        class="mb-3 rounded-2xl bg-white text-purple-950 border border-purple-950 px-5 py-3 focus:outline-none focus:ring-2 focus:ring-purple-950"></textarea>
+    <div data-reveal-item class="flex flex-col gap-2">
+      <label for="name" class="font-semibold">Name</label>
+      <input type="text" id="name" name="name" autocomplete="name" required class="contact-input contact-text-input" />
+    </div>
 
-                    <button type="submit" class="btn-secondary self-start">
-                        Send Message
-                    </button>
-                </form>
-            </section>
+    <div data-reveal-item class="flex flex-col gap-2">
+      <label for="email" class="font-semibold">Email</label>
+      <input type="email" id="email" name="email" autocomplete="email" required class="contact-input contact-text-input" />
+    </div>
+
+    <div data-reveal-item class="flex flex-col gap-2 sm:col-span-2">
+      <label for="message" class="font-semibold">Message</label>
+      <textarea name="message" id="message" rows="5" required class="contact-input contact-message-input"></textarea>
+    </div>
+
+    <div data-reveal-item class="mt-2 flex flex-wrap items-center gap-4 sm:col-span-2">
+      <button id="contactSubmit" type="submit" class="btn-secondary">Send Message</button>
+      <p id="contactStatus" class="text-sm" role="status" aria-live="polite"></p>
+    </div>
+  </form>
+  <iframe id="contactResponse" name="contactResponse" title="Contact form delivery response" class="sr-only" aria-hidden="true" tabindex="-1"></iframe>
+</section>

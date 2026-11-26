@@ -2,24 +2,109 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+:root {
+  color-scheme: light;
+  scroll-behavior: smooth;
+}
+
+:root.dark {
+  color-scheme: dark;
+}
+
 body {
-  @apply bg-white text-purple-950 max-w-5xl mx-auto p-4 text-left dark:bg-purple-950 dark:text-white sm:p-8;
+  @apply mx-auto max-w-5xl bg-white p-4 text-left text-purple-950 dark:bg-purple-950 dark:text-white sm:p-8;
+}
+
+.site-shell {
+  @apply rounded-[2rem] border border-purple-200 bg-purple-50/60 p-6 shadow-xl backdrop-blur-lg dark:border-white/20 dark:bg-white/5 sm:p-10;
+}
+
+.progress-bar {
+  @apply fixed left-0 top-0 z-50 h-1 w-full origin-left bg-orange-500;
+  transform: scaleX(0);
+}
+
+.skip-link {
+  @apply fixed left-4 top-4 z-[60] -translate-y-20 rounded-xl bg-purple-950 px-4 py-3 font-semibold text-white transition-transform focus:translate-y-0;
+}
+
+button,
+a,
+input,
+textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+
+:focus-visible {
+  outline: 3px solid #c654c3;
+  outline-offset: 3px;
 }
 
 @layer components {
   .btn-primary {
-    @apply px-6 py-3 bg-red-800 text-white hover:bg-orange-400 dark:bg-slate-700;
+    @apply rounded-full bg-red-800 px-6 py-3 text-white transition-colors hover:bg-orange-400 dark:bg-slate-700;
   }
 
   .btn-secondary {
-    @apply inline-block px-6 py-3 rounded-full font-semibold bg-purple-900 text-white hover:bg-purple-700 transition-colors duration-300 dark:bg-white dark:text-purple-950 dark:hover:bg-yellow-300;
+    @apply inline-block rounded-full bg-purple-900 px-6 py-3 font-semibold text-white shadow-sm transition duration-300 hover:-translate-y-0.5 hover:bg-purple-700 hover:shadow-md dark:bg-white dark:text-purple-950 dark:hover:bg-yellow-300;
   }
 
   .btn-accent {
-    @apply inline-block px-6 py-3 rounded-full font-semibold bg-purple-950 text-white hover:bg-purple-800 transition-colors duration-300;
+    @apply inline-block rounded-full bg-purple-950 px-6 py-3 font-semibold text-white transition-colors duration-300 hover:bg-purple-800;
   }
 
   .darkmode {
-    @apply border border-yellow-400 bg-yellow-300 text-purple-950 rounded-2xl p-6 sm:p-8 shadow-lg;
+    @apply rounded-2xl border border-yellow-400 bg-yellow-300 p-6 text-purple-950 shadow-lg transition-shadow duration-300 hover:shadow-xl sm:p-8;
+  }
+
+  .service-projects {
+    @apply mt-6 grid gap-5 sm:grid-cols-2 xl:grid-cols-3;
+  }
+
+  .service-card {
+    @apply flex min-w-0 flex-col overflow-hidden rounded-2xl border border-purple-800/60 bg-purple-950 p-4 text-white shadow-lg shadow-purple-950/15 transition duration-300 hover:-translate-y-1 hover:border-purple-700 hover:shadow-xl sm:p-5;
+  }
+
+  .service-art {
+    @apply m-0 aspect-video overflow-hidden rounded-lg bg-white shadow-sm;
+  }
+
+  .service-project h3 {
+    @apply mt-5 text-xl font-bold text-white;
+  }
+
+  .service-description {
+    @apply mt-3 leading-7 text-purple-100;
+  }
+
+  .contact-input {
+    @apply w-full border border-purple-950 bg-white px-5 py-3 text-purple-950 placeholder:text-purple-400/80 transition focus:outline-none focus:ring-2 focus:ring-purple-950;
+  }
+
+  .contact-text-input {
+    @apply rounded-full;
+  }
+
+  .contact-message-input {
+    @apply min-h-36 resize-y rounded-2xl;
+  }
+}
+
+button:disabled {
+  @apply cursor-not-allowed opacity-60;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

@@ -1,23 +1,31 @@
-<header class="flex items-center justify-between gap-4">
-            <nav>
-                <ul class="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm list-none">
-                    <li><a class="hover:underline" href="#about">About</a></li>
-                    <li><a class="hover:underline" href="#services">Services</a></li>
-                    <li><a class="hover:underline" href="#contact">Contact Me</a></li>
-                </ul>
-            </nav>
+<header class="flex flex-wrap items-center justify-between gap-4 border-b border-purple-200/70 pb-5 dark:border-white/15">
+  <nav aria-label="Main navigation">
+    <ul class="m-0 flex list-none flex-wrap items-center gap-x-6 gap-y-2 p-0 text-sm">
+      <li><a class="rounded-sm hover:underline" href="#about">About</a></li>
+      <li><a class="rounded-sm hover:underline" href="#services">Services</a></li>
+      <li><a class="rounded-sm hover:underline" href="#contact">Contact Me</a></li>
+    </ul>
+  </nav>
 
-            <div class="flex items-center gap-3">
-                <button id="toggledark"
-                    class="rounded-full border border-[#C654C3]/40 px-4 py-2 text-sm font-semibold hover:bg-[#FFC0DE]/40"
-                    type="button">
-                    Toggle
-                </button>
+  <div class="flex items-center gap-3">
+    <button
+      id="toggledark"
+      class="rounded-full border border-[#C654C3]/40 px-4 py-2 text-sm font-semibold hover:bg-[#FFC0DE]/40"
+      type="button"
+      aria-label="Toggle color theme"
+      title="Toggle color theme"
+    >
+      Toggle
+    </button>
 
-                <button id="replayTimeline"
-                    class="rounded-full border border-[#C654C3]/40 px-4 py-2 text-sm font-semibold hover:bg-[#FFC0DE]/40"
-                    type="button">
-                    Replay
-                </button>
-            </div>
-        </header>
+    <button
+      id="replayTimeline"
+      class="rounded-full border border-[#C654C3]/40 px-4 py-2 text-sm font-semibold hover:bg-[#FFC0DE]/40"
+      type="button"
+      aria-label="Replay introduction animation"
+      title="Replay introduction"
+    >
+      Replay
+    </button>
+  </div>
+</header>

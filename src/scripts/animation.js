@@ -1,71 +1,177 @@
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+
 gsap.registerPlugin(ScrollTrigger);
 
-const timeline = gsap.timeline({
-  defaults: { duration: 0.5, ease: "power2.out" },
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+const replayButton = document.querySelector("#replayTimeline");
+const themeButton = document.querySelector("#toggledark");
+const contactForm = document.querySelector("#contactForm");
+const contactStatus = document.querySelector("#contactStatus");
+const contactFrame = document.querySelector("#contactResponse");
+const contactSubmitButton = document.querySelector("#contactSubmit");
+
+let introTimeline;
+
+function updateThemeButton() {
+  if (!themeButton) return;
+
+  const nextTheme = document.documentElement.classList.contains("dark") ? "light" : "dark";
+  themeButton.setAttribute("aria-label", `Switch to ${nextTheme} theme`);
+  themeButton.setAttribute("title", `Switch to ${nextTheme} theme`);
+}
+
+updateThemeButton();
+
+if (replayButton) {
+  replayButton.hidden = reduceMotion.matches;
+  reduceMotion.addEventListener("change", (event) => {
+    replayButton.hidden = event.matches;
+  });
+}
+
+themeButton?.addEventListener("click", () => {
+  const isDark = document.documentElement.classList.toggle("dark");
+
+  try {
+    localStorage.setItem("portfolio-theme", isDark ? "dark" : "light");
+  } catch {
+    // The theme still works for this visit if browser storage is unavailable.
+  }
+
+  updateThemeButton();
+
+  if (!reduceMotion.matches) {
+    gsap.to(themeButton, { rotation: "+=360", duration: 0.6, ease: "power2.out" });
+  }
 });
 
-timeline
-  .from("h1", { y: -60, opacity: 0, duration: 1, ease: "bounce.out" })
-  .from(".email", { y: 30, opacity: 0, duration: 0.8 })
-  .from("nav a", {
-    y: -20,
-    opacity: 0,
-    duration: 0.5,
-    stagger: 0.5,
-  })
-  .from("#about", {
-    y: 40,
-    opacity: 0,
-    duration: 1,
-    ease: "back.out(2.5)",
+const motion = gsap.matchMedia();
+
+motion.add("(prefers-reduced-motion: no-preference)", () => {
+  const introElements = gsap.utils.toArray(
+    "[data-intro-eyebrow], [data-intro-title], [data-intro-copy], [data-intro-action], .email, nav a",
+  );
+
+  introTimeline = gsap.timeline({
+    defaults: { duration: 0.8, ease: "power2.out" },
+    onComplete: () => gsap.set(introElements, { clearProps: "opacity,visibility,transform" }),
   });
 
-document.querySelector("#replayTimeline")?.addEventListener("click", () => {
-  timeline.restart();
-});
+  introTimeline
+    .fromTo("nav a", { y: -12, autoAlpha: 0 }, { y: 0, autoAlpha: 1, stagger: 0.45, duration: 1.35, immediateRender: false })
+    .fromTo("[data-intro-eyebrow]", { y: 16, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.8, immediateRender: false }, "-=0.2")
+    .fromTo("[data-intro-title]", { y: -35, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 1.1, ease: "power3.out", immediateRender: false }, "-=0.15")
+    .fromTo("[data-intro-copy]", { y: 20, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.9, immediateRender: false }, "-=0.2")
+    .fromTo("[data-intro-action]", { y: 12, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.8, immediateRender: false }, "-=0.1")
+    .fromTo(".email", { y: 20, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.8, immediateRender: false }, "-=0.1");
 
- gsap.from("#services", {
-    y: 50,
-    opacity: 0,
-    duration: 0.8,
-    ease: "power2.out",
-    scrollTrigger: {
-    trigger: "#services",
-    start: "top 80%",
-    toggleActions: "play none none reverse",
-    }
-});
+  introTimeline.timeScale(0.7);
 
-gsap.fromTo(
-  "#progressBar",
-  { scaleX: 0 },
-  {
-    scaleX: 1,
-    ease: "none",
-    scrollTrigger: {
-      trigger: "body",
-      start: "top top",
-      end: "bottom bottom",
-      scrub: true,
+  gsap.utils.toArray("[data-scroll-reveal]").forEach((section) => {
+    const items = section.querySelectorAll("[data-reveal-item]");
+    if (!items.length) return;
+
+    let hasRevealed = false;
+    const revealItems = () => {
+      if (hasRevealed) return;
+      hasRevealed = true;
+
+      gsap.fromTo(
+        items,
+        { y: 36, autoAlpha: 0 },
+        {
+          y: 0,
+          autoAlpha: 1,
+          duration: 1.05,
+          stagger: 0.2,
+          ease: "power2.out",
+          onComplete: () => gsap.set(items, { clearProps: "opacity,visibility,transform" }),
+        },
+      );
+    };
+
+    ScrollTrigger.create({
+      trigger: section,
+      start: "top 78%",
+      once: true,
+      onEnter: revealItems,
+      onRefresh: (trigger) => {
+        if (trigger.progress > 0) revealItems();
+      },
+    });
+  });
+
+  gsap.fromTo(
+    "#progressBar",
+    { scaleX: 0 },
+    {
+      scaleX: 1,
+      ease: "none",
+      scrollTrigger: {
+        trigger: document.documentElement,
+        start: "top top",
+        end: "bottom bottom",
+        scrub: true,
+      },
     },
-  },
-);
+  );
 
-ScrollTrigger.create({
-  trigger: "#services",
-  start: "top top",
-  end: "bottom top",
-  pin: true,
+  return () => {
+    introTimeline = undefined;
+  };
 });
 
-const darkModeButton = document.querySelector("#toggledark");
-darkModeButton?.addEventListener("click", () => {
-  document.documentElement.classList.toggle("dark");
-  gsap.to(darkModeButton, {
-    rotation: "+=360",
-    duration: 0.6,
-    ease: "power2.out",
-  });
+replayButton?.addEventListener("click", () => {
+  if (introTimeline && !reduceMotion.matches) introTimeline.restart();
+});
+
+let contactSubmissionPending = false;
+let contactSubmissionTimeout;
+
+window.addEventListener("message", (event) => {
+  if (!contactFrame || event.source !== contactFrame.contentWindow) return;
+  if (event.data?.type !== "portfolio-contact-result" || !contactSubmissionPending) return;
+
+  contactSubmissionPending = false;
+  window.clearTimeout(contactSubmissionTimeout);
+  if (contactSubmitButton instanceof HTMLButtonElement) contactSubmitButton.disabled = false;
+
+  if (event.data.success) {
+    if (contactStatus) contactStatus.textContent = "Message sent to Gmail. Thanks for reaching out.";
+    if (contactForm instanceof HTMLFormElement) contactForm.reset();
+  } else if (contactStatus) {
+    contactStatus.textContent = "The message could not be sent. Please email me directly instead.";
+  }
+});
+
+contactForm?.addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  if (!(contactForm instanceof HTMLFormElement)) return;
+
+  const endpoint = contactForm.dataset.endpoint?.trim();
+
+  if (!endpoint || !endpoint.startsWith("https://script.google.com/macros/s/")) {
+    if (contactStatus) {
+      contactStatus.textContent = "Gmail delivery is not set up yet. Please use the email link on this page.";
+    }
+    return;
+  }
+
+  if (!contactFrame) return;
+
+  contactSubmissionPending = true;
+  if (contactStatus) contactStatus.textContent = "Sending your message...";
+  if (contactSubmitButton instanceof HTMLButtonElement) contactSubmitButton.disabled = true;
+
+  contactSubmissionTimeout = window.setTimeout(() => {
+    if (!contactSubmissionPending) return;
+    contactSubmissionPending = false;
+    if (contactSubmitButton instanceof HTMLButtonElement) contactSubmitButton.disabled = false;
+    if (contactStatus) contactStatus.textContent = "No response yet. Please try again or email me directly.";
+  }, 20000);
+
+  contactForm.action = endpoint;
+  contactForm.submit();
 });

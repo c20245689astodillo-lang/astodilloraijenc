@@ -1,5 +1,37 @@
- <section id="services" class="darkmode scroll-mt-24 mt-6">
-                <h2 class="text-2xl font-extrabold">My Services</h2>
-                <p class="mt-3 font-light max-w-prose">Website Creation, System Creation, AI Automation, Database
-                    Management, Systems Analyst</p>
-            </section>
+---
+import Card from "../../../components/Card.astro";
+import photoEditing from "../../images/raijen-photo-editing.jpg";
+import customLayout from "../../images/raijen-custom-layouts.jpg";
+import interactiveWebsite from "../../images/raijen-interactive-website.jpg";
+---
+
+<section id="services" data-scroll-reveal class="darkmode mt-6 scroll-mt-24">
+  <p data-reveal-item class="mb-2 text-sm font-bold uppercase tracking-[0.16em] text-purple-700">What I offer</p>
+  <h2 data-reveal-item class="text-2xl font-extrabold">My Services</h2>
+
+  <div class="service-projects">
+    <Card
+      reveal
+      title="Photo Editing"
+      desc="Photo retouching, color correction, and lighting adjustments to make your images clear, balanced, and polished."
+      image={photoEditing}
+      alt="Person watching the sunset by the water"
+    />
+    <Card
+      reveal
+      title="Custom Layouts"
+      desc="Custom posters and digital layouts with strong typography, balanced imagery, and clear, easy-to-follow information."
+      image={customLayout}
+      alt="Skills competition poster layout"
+      imageFit="contain"
+    />
+    <Card
+      reveal
+      title="Websites & Systems"
+      desc="Responsive websites and custom systems that organize information, support everyday workflows, and automate repetitive tasks."
+      image={interactiveWebsite}
+      alt="University library circulation dashboard"
+      class="md:col-span-2 xl:col-span-1"
+    />
+  </div>
+</section>
