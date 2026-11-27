@@ -6,12 +6,20 @@ import interactiveWebsite from "../../images/raijen-interactive-website.jpg";
 ---
 
 <section id="services" data-scroll-reveal class="darkmode mt-6 scroll-mt-24">
-  <p data-reveal-item class="mb-2 text-sm font-bold uppercase tracking-[0.16em] text-purple-700">What I offer</p>
-  <h2 data-reveal-item class="text-2xl font-extrabold">My Services</h2>
+  <div class="services-header">
+    <div>
+      <p data-reveal-item class="section-eyebrow">What I offer</p>
+      <h2 data-reveal-item class="section-title">My Services</h2>
+    </div>
+    <p data-reveal-item class="max-w-sm leading-7 text-purple-900">
+      Creative visuals and practical digital tools, thoughtfully made for your needs.
+    </p>
+  </div>
 
   <div class="service-projects">
     <Card
       reveal
+      index="01"
       title="Photo Editing"
       desc="Photo retouching, color correction, and lighting adjustments to make your images clear, balanced, and polished."
       image={photoEditing}
@@ -19,6 +27,7 @@ import interactiveWebsite from "../../images/raijen-interactive-website.jpg";
     />
     <Card
       reveal
+      index="02"
       title="Custom Layouts"
       desc="Custom posters and digital layouts with strong typography, balanced imagery, and clear, easy-to-follow information."
       image={customLayout}
@@ -27,6 +36,7 @@ import interactiveWebsite from "../../images/raijen-interactive-website.jpg";
     />
     <Card
       reveal
+      index="03"
       title="Websites & Systems"
       desc="Responsive websites and custom systems that organize information, support everyday workflows, and automate repetitive tasks."
       image={interactiveWebsite}

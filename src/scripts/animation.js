@@ -50,7 +50,7 @@ const motion = gsap.matchMedia();
 
 motion.add("(prefers-reduced-motion: no-preference)", () => {
   const introElements = gsap.utils.toArray(
-    "[data-intro-eyebrow], [data-intro-title], [data-intro-copy], [data-intro-action], .email, nav a",
+    "[data-intro-eyebrow], [data-intro-title], [data-intro-copy], [data-intro-action], nav a",
   );
 
   introTimeline = gsap.timeline({
@@ -64,7 +64,6 @@ motion.add("(prefers-reduced-motion: no-preference)", () => {
     .fromTo("[data-intro-title]", { y: -35, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 1.1, ease: "power3.out", immediateRender: false }, "-=0.15")
     .fromTo("[data-intro-copy]", { y: 20, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.9, immediateRender: false }, "-=0.2")
     .fromTo("[data-intro-action]", { y: 12, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.8, immediateRender: false }, "-=0.1")
-    .fromTo(".email", { y: 20, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.8, immediateRender: false }, "-=0.1");
 
   introTimeline.timeScale(0.7);
 

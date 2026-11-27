@@ -10,14 +10,16 @@ interface Props {
   imageFit?: "cover" | "contain";
   class?: string;
   reveal?: boolean;
+  index?: string;
 }
 
-const { title, desc, image, alt = title, imageFit = "cover", class: className = "", reveal = false } = Astro.props;
+const { title, desc, image, alt = title, imageFit = "cover", class: className = "", reveal = false, index } = Astro.props;
 const fitClass = imageFit === "contain" ? "object-contain" : "object-cover";
 ---
 
 <article data-reveal-item={reveal ? "" : undefined} class:list={["service-card", className]}>
   <figure class="service-art" aria-hidden={image ? undefined : "true"}>
+    {index && <span class="service-index" aria-hidden="true">{index}</span>}
     {typeof image === "string" ? (
       <img src={image} alt={alt} class:list={["h-full w-full", fitClass]} loading="lazy" decoding="async" />
     ) : image ? (

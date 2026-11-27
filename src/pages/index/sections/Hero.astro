@@ -1,25 +1,55 @@
-<section id="hero" class="scroll-mt-24 py-16 sm:py-24">
-  <p data-intro-eyebrow class="mb-3 text-sm font-semibold uppercase tracking-[0.18em] text-purple-700 dark:text-purple-200">System analyst &amp; web developer</p>
-  <h1 data-intro-title class="text-5xl leading-tight sm:text-7xl">
-    <span class="block font-extrabold">Raijen</span>
-    <span class="block font-extrabold">C. Astodillo</span>
-  </h1>
+---
+import { Image } from "astro:assets";
+import heroPortrait from "../../images/raijen-hero.jpg";
+---
 
-  <p data-intro-copy class="mt-4 max-w-prose text-lg leading-7 text-purple-900 dark:text-purple-100">
-    I turn ideas into practical websites and systems that make everyday work easier.
-  </p>
+<section id="hero" class="hero-layout scroll-mt-24">
+  <div class="hero-copy">
+    <p data-intro-eyebrow class="hero-kicker">
+      <span class="hero-kicker-dot" aria-hidden="true"></span>
+      Creative visuals &amp; practical technology
+    </p>
+    <h1 data-intro-title class="hero-title">
+      Creative ideas.<br />
+      <span class="hero-title-accent">Built to work.</span>
+    </h1>
+    <p data-intro-copy class="hero-description">
+      I turn ideas into polished visuals, responsive websites, and practical systems that make everyday work easier.
+    </p>
 
-  <div class="mt-6">
-    <a data-intro-action class="btn-secondary" href="#contact">Let's build together</a>
+    <div class="hero-actions">
+      <a data-intro-action class="btn-secondary" href="#services">
+        Explore services
+        <span aria-hidden="true">&rarr;</span>
+      </a>
+      <a class="hero-secondary" href="#contact">Let's talk</a>
+    </div>
+
   </div>
 
-  <div class="mt-6">
-    <a
-      class="email inline-flex break-all items-center gap-2 rounded-full bg-purple-900 px-4 py-2 text-sm text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-purple-800 hover:shadow-md dark:bg-yellow-300 dark:text-purple-950 dark:hover:bg-yellow-200"
-      href="mailto:c20245689.astodillo@csav.edu.ph"
-    >
-      <svg aria-hidden="true" class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2" /><path d="m3 7 9 6 9-6" /></svg>
-      c20245689.astodillo@csav.edu.ph
-    </a>
-  </div>
+  <article class="hero-showcase" aria-label="Portfolio portrait">
+    <figure class="hero-image-frame">
+      <Image
+        src={heroPortrait}
+        alt="Portrait of a woman wearing sunglasses outdoors"
+        class="hero-feature-image"
+        loading="eager"
+      />
+      <span class="hero-image-label">Meet Raijen</span>
+      <span class="hero-image-count">Portfolio</span>
+    </figure>
+
+    <div class="hero-showcase-footer">
+      <div>
+        <p class="hero-project-kicker">The person behind the work</p>
+        <h2>Raijen C. Astodillo</h2>
+        <p class="mt-1 text-sm text-purple-100">System analyst &amp; web developer</p>
+      </div>
+      <a href="#services" class="hero-showcase-link" aria-label="Explore all services">
+        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14M13 6l6 6-6 6" />
+        </svg>
+      </a>
+    </div>
+  </article>
 </section>
