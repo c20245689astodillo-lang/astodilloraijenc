@@ -6,10 +6,6 @@ gsap.registerPlugin(ScrollTrigger);
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 const replayButton = document.querySelector("#replayTimeline");
 const themeButton = document.querySelector("#toggledark");
-const contactForm = document.querySelector("#contactForm");
-const contactStatus = document.querySelector("#contactStatus");
-const contactFrame = document.querySelector("#contactResponse");
-const contactSubmitButton = document.querySelector("#contactSubmit");
 
 let introTimeline;
 
@@ -123,54 +119,4 @@ motion.add("(prefers-reduced-motion: no-preference)", () => {
 
 replayButton?.addEventListener("click", () => {
   if (introTimeline && !reduceMotion.matches) introTimeline.restart();
-});
-
-let contactSubmissionPending = false;
-let contactSubmissionTimeout;
-
-window.addEventListener("message", (event) => {
-  if (!contactFrame || event.source !== contactFrame.contentWindow) return;
-  if (event.data?.type !== "portfolio-contact-result" || !contactSubmissionPending) return;
-
-  contactSubmissionPending = false;
-  window.clearTimeout(contactSubmissionTimeout);
-  if (contactSubmitButton instanceof HTMLButtonElement) contactSubmitButton.disabled = false;
-
-  if (event.data.success) {
-    if (contactStatus) contactStatus.textContent = "Message sent to Gmail. Thanks for reaching out.";
-    if (contactForm instanceof HTMLFormElement) contactForm.reset();
-  } else if (contactStatus) {
-    contactStatus.textContent = "The message could not be sent. Please email me directly instead.";
-  }
-});
-
-contactForm?.addEventListener("submit", (event) => {
-  event.preventDefault();
-
-  if (!(contactForm instanceof HTMLFormElement)) return;
-
-  const endpoint = contactForm.dataset.endpoint?.trim();
-
-  if (!endpoint || !endpoint.startsWith("https://script.google.com/macros/s/")) {
-    if (contactStatus) {
-      contactStatus.textContent = "Gmail delivery is not set up yet. Please use the email link on this page.";
-    }
-    return;
-  }
-
-  if (!contactFrame) return;
-
-  contactSubmissionPending = true;
-  if (contactStatus) contactStatus.textContent = "Sending your message...";
-  if (contactSubmitButton instanceof HTMLButtonElement) contactSubmitButton.disabled = true;
-
-  contactSubmissionTimeout = window.setTimeout(() => {
-    if (!contactSubmissionPending) return;
-    contactSubmissionPending = false;
-    if (contactSubmitButton instanceof HTMLButtonElement) contactSubmitButton.disabled = false;
-    if (contactStatus) contactStatus.textContent = "No response yet. Please try again or email me directly.";
-  }, 20000);
-
-  contactForm.action = endpoint;
-  contactForm.submit();
 });
